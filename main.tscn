@@ -1,10 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://bk7a7qgx7p8wf"]
+[gd_scene load_steps=3 format=3 uid="uid://bk7a7qgx7p8wf"]
 
 [ext_resource type="PackedScene" uid="uid://dxvteemx6320r" path="res://player.tscn" id="1_hr1kg"]
+
+[sub_resource type="Curve2D" id="Curve2D_vsb8v"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 480, 0, 0, 0, 0, 0, 480, 720, 0, 0, 0, 0, 0, 720, 0, 0, 0, 0, 0, 0)
+}
+point_count = 5
 
 [node name="Main" type="Node"]
 
 [node name="Player" parent="." instance=ExtResource("1_hr1kg")]
+visible = false
 
 [node name="MobTimer" type="Timer" parent="."]
 wait_time = 0.5
@@ -17,3 +24,6 @@ one_shot = true
 
 [node name="StartPosition" type="Marker2D" parent="."]
 position = Vector2(240, 450)
+
+[node name="MobPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_vsb8v")
