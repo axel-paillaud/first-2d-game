@@ -32,11 +32,10 @@ func _ready():
 func _process(delta):
 	pass
 
-
 func _on_start_button_pressed():
 	$StartButton.hide()
+	$HighScore.hide()
 	start_game.emit()
-
 
 func _on_message_timer_timeout():
 	$Message.hide()

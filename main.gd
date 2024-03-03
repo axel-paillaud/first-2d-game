@@ -12,6 +12,7 @@ func _process(delta):
 	pass
 
 func game_over():
+	save_score(score)
 	get_tree().call_group("mobs", "queue_free")
 	$Music.stop()
 	$DeathSound.play()
@@ -26,6 +27,27 @@ func new_game():
 	$HUD.show_message("Get Ready")
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
+	
+func save(score):
+	return {
+		"score": score
+	}
+	
+func save_score(score):	
+	var score_dict = save(score)
+	if not FileAccess.file_exists("user://score.save"):
+		var save_score = FileAccess.open("user://score.save", FileAccess.WRITE)
+		save_score.store_line(JSON.stringify(score_dict))
+	else:
+		var current_save = get_save()
+		if current_save.score < score:
+			var save_score = FileAccess.open("user://score.save", FileAccess.WRITE)
+			save_score.store_line(JSON.stringify(score_dict))
+			
+func get_save():
+	var save_score = FileAccess.open("user://score.save", FileAccess.READ)
+	var json_string = save_score.get_line()
+	return JSON.parse_string(json_string)
 
 func _on_mob_timer_timeout():
 	# Create a new instance of the Mob scene.
