@@ -3,6 +3,16 @@ extends CanvasLayer
 # Notify Main node that the start game button has been pressed
 signal start_game
 
+var score = get_score()
+
+func get_score():
+	if not FileAccess.file_exists("user://score.save"):
+		return 0
+	else:
+		var save_score = FileAccess.open("user://score.save", FileAccess.READ)
+		var json_string = save_score.get_line()
+		return JSON.parse_string(json_string).score
+
 func show_message(text):
 	$Message.text = text
 	$Message.show()
@@ -14,6 +24,11 @@ func show_game_over():
 	await $MessageTimer.timeout
 	
 	$Message.text = "Dodge the Creeps!"
+	
+	score = get_score()
+	$HighScore.text = str("High Score: ", score)
+	
+	$HighScore.show()
 	$Message.show()
 	
 		# Make a one-shot timer and wait for it to finish.
@@ -25,7 +40,7 @@ func update_score(score):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	$HighScore.text = str("High Score: ", score)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
