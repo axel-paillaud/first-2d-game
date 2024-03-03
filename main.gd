@@ -12,6 +12,7 @@ func _process(delta):
 	pass
 
 func game_over():
+	get_tree().call_group("mobs", "queue_free")
 	$Music.stop()
 	$DeathSound.play()
 	$ScoreTimer.stop()
